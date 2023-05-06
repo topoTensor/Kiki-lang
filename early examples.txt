@@ -1,0 +1,218 @@
+#FACTORIAL
+function factorial(a)
+    i = 1
+    res = 1
+    while i <= a do
+        res = res * i
+        i = i + 1
+    end
+    return res
+end
+
+# INTEGER POWER AND LOGARITHM
+function pow(num, p)
+    i = 1
+    startnum = num
+    while i < p do
+        num = num*startnum
+        i = i+1
+    end
+    return num
+end
+
+function log(b,c)
+    x = 0
+    while x < c do
+        x=x+1
+        if pow(b,x) == c then
+            return x
+        end
+    end
+    return 0
+end
+
+#SOME EASY FUNCTIONS
+function add(a,b)
+    return a+b
+end
+
+function min(a,b)
+    if a < b then
+        return a
+    else
+        return b
+    end
+end
+
+#BOOLEAN ALGEBRA
+function and(a,b)
+    return a&b
+end
+function or(a,b)
+    return a|b
+end
+function xor(a,b)
+    return (a|b)&!(a&b)
+end
+function equiv(a,b)
+    return !xor(a,b)
+end
+
+#CLOSURES
+function summation(x0, x1)
+    function f(x)
+        return x
+    end
+    x = x0
+    area=0
+    while x <= x1 do
+        area = area + f(x)
+        x=x+1
+    end
+    return area
+end
+
+#strings
+function toLower(s)
+    i = 0
+    news=""
+    while i < len(s) do
+        if (s~i >= 65) & (s~i <= 90) then
+            news=news^[s~i+32]
+        else
+            news=news^[s~i]
+        end
+        i = i +1
+    end
+    return news
+end
+
+function draw_triangle(height)
+    i=1
+    while i<=height do
+        q=0
+        while q < i do
+            print("*")
+            q=q+1
+        end
+        print("\n")
+        i=i+1
+    end
+    return 0
+end
+
+function split(str)
+    i=0
+    parts=[]
+    newstr=""
+    while i < len(str) do
+        if (str~i == 32) then
+            parts=parts^[newstr]
+            newstr=""
+        elseif (i+1==len(str)) then
+            newstr=newstr^[str~i]
+            parts=parts^[newstr]
+            newstr=""
+        else
+            newstr=newstr^[str~i]
+        end
+        i=i+1
+    end
+    return parts
+end
+
+#BASIC IO
+function test_io()
+    print(2+2)
+    print(read())
+    panic(read())
+end
+
+#IMPORTING
+# import("filename1", "filename2...")
+# importing replaces the import statement with the text of the imported file, so it can be important anywhere and will keep the order of statements
+
+#SMALL PROGRAMS
+function deadfish(str)
+    reg=0
+    i = 0
+    while i < len(str) do
+        c=str~i
+        if c == byte("i") then
+            reg=reg+1
+        elseif c == byte("d") then
+            reg=reg-1
+        elseif c == byte("s") then
+            reg=reg*reg
+        elseif c == byte("o") then
+            print(reg, "\n")
+        end
+        i=i+1
+    end
+    return reg
+end
+
+function rule110(inp)
+    i=0
+    out=[]
+    li=len(inp)
+    while i+2 < li do
+        a=inp~i
+        b=inp~(i+1)
+        c=inp~(i+2)
+        if a == 1 & b == 1 & c == 1 then
+            out=out^[0]
+        elseif a == 1 & b == 1 & c == 0 then
+            out=out^[0]
+        elseif a == 1 & b == 0 & c == 1 then
+            out=out^[0] 
+        elseif a == 1 & b == 0 & c == 0 then
+            out=out^[1] 
+        elseif a == 0 & b == 1 & c == 1 then
+            out=out^[1]
+        elseif a == 0 & b == 1 & c == 0 then
+            out=out^[1] 
+        elseif a == 0 & b == 0 & c == 1 then
+            out=out^[1]
+        elseif a == 0 & b == 0 & c == 0 then
+            out=out^[0]
+        end
+        i=i+1
+    end
+    i=0
+    lo=len(out)
+    while i < lo do
+        if out~i == 0 then
+            print(" ")
+        else
+            print("+")
+        end
+        i=i+1
+    end
+    print("\n")
+    if lo == 0 then
+        return out
+    else
+        return rule110(out)
+    end
+end
+
+function fibonacci(n)
+    if n <= 1 then
+        return n
+    end
+    return fibonacci(n-1) + fibonacci(n-2)
+end
+
+#FIRST CLASS FUNCTIONS
+
+function map(arr, f)
+    newarr=[]
+    i=0
+    l=len(arr)
+    while i < l do
+        newarr=newarr^[f(arr~i)]
+        i=i+1
+    end
+    return newarr
+end
