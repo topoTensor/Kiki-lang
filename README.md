@@ -2,7 +2,7 @@
 
 To use the language, compile the go files using run.sh for Linux and run.ps1 for Windows. Use the executable with 2 arguments, the file name and the intepretation type. If the interpretation type is 0, it will run normally, if it's 1 it will print additional messages about the interpretation process, such as value evaluations and other.
 
-<sup>
+```Ruby
     # comments are written after cage sign
     a = 2           # variable declaration, possible value types are Number, Boolean, Array and String
     
@@ -81,4 +81,4 @@ To use the language, compile the go files using run.sh for Linux and run.ps1 for
         return newarr
     end
 
-</sup>
+```
