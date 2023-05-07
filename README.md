@@ -53,7 +53,7 @@ To use the language, compile the go files using run.sh for Linux and run.ps1 for
         print(str~0)
     end
 
-    # panic("message")    # throws an error with the argument value, accepts only single argument
+    panic("message")    # throws an error with the argument value, accepts only single argument
 
     a=file_read(str)      # returns the text inside the file, argument is the file name
     file_write("foo.txt", "text") # writes the second argument inside the first argument's file
