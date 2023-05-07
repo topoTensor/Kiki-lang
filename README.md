@@ -29,7 +29,7 @@ To use the language, compile the go files using run.sh for Linux and run.ps1 for
         i=i+1
     end
 
-    # Functions are poor, they can't modify outside variables and must always return a value, they can't be called outside of an expression, expect some pre-made functions. They are also first class and can be passed as an argument using the $ reference sign
+    # Functions are pure, they can't modify outside variables and must always return a value, they can't be called outside of an expression, expect some pre-made functions. They are also first class and can be passed as an argument using the $ reference sign
 
     function add(a,b)
         return a+b
