@@ -38,7 +38,7 @@ To use the language, compile the go files using run.sh for Linux and run.ps1 for
         return f(x,y)
     end
 
-    a=do_func($add, 2,3)
+    a=do_func($add, 2,3) # function references are used with $ sign
 
     # Pre-made functions are:
     
@@ -58,7 +58,7 @@ To use the language, compile the go files using run.sh for Linux and run.ps1 for
     a=file_read(str)      # returns the text inside the file, argument is the file name
     file_write("foo.txt", "text") # writes the second argument inside the first argument's file
 
-    import("test.a")      # imports the file's text into the current file, replacing the import statement
+    import("test.a")      # imports the file's text into the current file, replacing the line import statement
     # it can be called as a statement anywhere
 
     # Example functions

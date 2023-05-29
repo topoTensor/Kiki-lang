@@ -1,0 +1,20 @@
+function deadfish(str)
+    reg=0
+    i = 0
+    while i < len(str) do
+        c=str~i
+        if c == byte("i") then
+            reg=reg+1
+        elseif c == byte("d") then
+            reg=reg-1
+        elseif c == byte("s") then
+            reg=reg*reg
+        elseif c == byte("o") then
+            print(reg, "\n")
+        end
+        i=i+1
+    end
+    return reg
+end
+
+a=deadfish("iiso")

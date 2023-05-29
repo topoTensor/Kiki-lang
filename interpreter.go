@@ -171,6 +171,7 @@ func (inter *Inter) call_run() (return_variables map[string]Variable, return_fun
 			lex := lex_list(inter.current.left_side)
 			print_objects := []Token{}
 			for _, l := range lex {
+
 				print_objects = append(print_objects, inter.Shunting_Yard(l, "print call"))
 			}
 			for i, p := range print_objects {

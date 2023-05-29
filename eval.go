@@ -52,31 +52,35 @@ func remove_token(array []Token, name string) []Token {
 func lex_list(input []Token) [][]Token {
 	if len(input) == 0 {
 		return [][]Token{}
+	} else if len(input) == 1 {
+		return [][]Token{input}
 	}
 	iterator := new_iterator(input)
 	output := [][]Token{}
-	left_index := 0
-	in_function := false
+	part := []Token{}
 	function_end_index := -1
 	print_comment("LEX_LIST INPUT:", input)
 	for {
-		if !in_function {
-			if iterator.can_peek() && iterator.current.typ == IDENTIFIER && iterator.peek().value == LPAREN {
-				iterator.advance()
-				function_end_index = search_boundaries(iterator, LPAREN, RPAREN)
-				in_function = true
-			} else if iterator.current.value == COMMA {
-				output = append(output, input[left_index:iterator.index])
-				left_index = iterator.index + 1
-			} else if iterator.index+1 == len(input) {
-				output = append(output, input[left_index:iterator.index+1])
-				return output
-			}
+		if iterator.can_peek() && iterator.current.typ == IDENTIFIER && iterator.peek().value == LPAREN {
+			iterator.advance()
+			function_end_index = search_boundaries(iterator, LPAREN, RPAREN) + 1
+			output = append(output, iterator.array[iterator.index-1:function_end_index])
+			iterator.move_index(function_end_index)
 		} else {
-			for iterator.index != function_end_index && iterator.index+2 < len(iterator.array) {
-				iterator.advance()
+			if iterator.current.value == COMMA {
+				output = append(output, part)
+				part = []Token{}
+			} else {
+				part = append(part, iterator.current)
 			}
-			in_function = false
+		}
+		if !iterator.can_peek() {
+			print_comment("LEX_LIST OUTPUT:", output)
+			if len(part) > 0 {
+
+				output = append(output, part)
+			}
+			return output
 		}
 		iterator.advance()
 	}
@@ -142,7 +146,16 @@ func (inter *Inter) replace_identifiers(input []Token, from string) []Token {
 								throw_error("function `byte` accepts only one string character as an argument", iterator.current.line, iterator.current.column)
 							}
 							val := inter.Shunting_Yard(lex[0], "from byte function evaluation")
-							new_input = append(new_input, Token{NUMBER, float64([]byte(val.value.(string))[0]), iterator.current.line, iterator.current.column})
+							switch val.value.(type) {
+							case []Token:
+								if val.typ == ARRAYSTRING {
+									new_input = append(new_input, Token{NUMBER, val.value.([]Token)[0].value.(float64), iterator.current.line, iterator.current.column})
+								}
+							case Token:
+								new_input = append(new_input, Token{NUMBER, float64([]byte(val.value.(Token).value.(string))[0]), iterator.current.line, iterator.current.column})
+							case string:
+								new_input = append(new_input, Token{NUMBER, float64([]byte(val.value.(string))[0]), iterator.current.line, iterator.current.column})
+							}
 							iterator.set_current(bound_index)
 						} else if func_name == "file_read" {
 							iterator.advance()
@@ -194,7 +207,7 @@ func (inter *Inter) replace_identifiers(input []Token, from string) []Token {
 		}
 		iterator.advance()
 	}
-	print_comment("\033[33m OUTPUT RETURN IDENT \033[39m", new_input)
+	print_comment("\033[33m OUTPUT RETURN IDENT \033[39m", input, "output:", new_input, "from:", from)
 	return new_input
 }
 
