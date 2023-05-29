@@ -359,6 +359,9 @@ func eval_token_express(t1, t2, op Token) Token {
 func eval_bang(tok Token) Token {
 	return Token{BOOLEAN, !tok.value.(bool), tok.line, tok.column}
 }
+func eval_minus(tok Token) Token {
+	return Token{NUMBER, -tok.value.(float64), tok.line, tok.column}
+}
 func Calculate_Postfix(arr []Token) Token {
 	i := 2
 	for {
@@ -367,6 +370,9 @@ func Calculate_Postfix(arr []Token) Token {
 		}
 		if arr[i-1].value == BANG {
 			arr = replace_array_part(arr, i-2, i-1, eval_bang(arr[i-2]))
+			i = 1
+		} else if arr[i-1].value == MINUS && len(arr) <= 2 {
+			arr = replace_array_part(arr, i-2, i-1, eval_minus(arr[i-2]))
 			i = 1
 		} else if arr[i].typ == SIGN && arr[i].value != BANG {
 			arr = replace_array_part(arr, i-2, i, eval_token_express(arr[i-2], arr[i-1], arr[i]))
